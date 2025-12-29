@@ -1,6 +1,5 @@
-use std::path::{Component, Path, PathBuf};
 use crate::error::JailError;
-
+use std::path::{Component, Path, PathBuf};
 
 /// A filesystem sandbox that restricts paths to a root directory.
 #[derive(Debug, Clone)]
@@ -17,7 +16,7 @@ impl Jail {
         if !root.is_dir() {
             return Err(JailError::Io(std::io::Error::new(
                 std::io::ErrorKind::InvalidInput,
-                "Root must be a directory"
+                "Root must be a directory",
             )));
         }
         Ok(Self { root })
@@ -71,7 +70,9 @@ impl Jail {
                 }
                 Component::CurDir => {} // Ignore "."
                 Component::RootDir | Component::Prefix(_) => {
-                    return Err(JailError::InvalidPath("absolute components not allowed".into()));
+                    return Err(JailError::InvalidPath(
+                        "absolute components not allowed".into(),
+                    ));
                 }
             }
         }
@@ -128,7 +129,7 @@ impl Jail {
     /// ```
     pub fn relative<P: AsRef<Path>>(&self, absolute: P) -> Result<PathBuf, JailError> {
         let path = absolute.as_ref();
-        
+
         let resolved = if path.is_absolute() {
             // Absolute paths must exist (for symlink verification)
             self.verify_inside(path.to_path_buf())?
@@ -136,7 +137,7 @@ impl Jail {
             // Relative paths: resolve via join() to normalize
             self.join(path)?
         };
-        
+
         // Strip the jail root to get the relative path
         resolved
             .strip_prefix(&self.root)
@@ -146,7 +147,6 @@ impl Jail {
                 root: self.root.clone(),
             })
     }
-
 }
 
 impl AsRef<Path> for Jail {

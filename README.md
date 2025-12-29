@@ -1,6 +1,9 @@
 # path_jail
 
-> **Work in Progress** - Core functionality works, API may change.
+[![CI](https://github.com/aimable100/path_jail/actions/workflows/ci.yml/badge.svg)](https://github.com/aimable100/path_jail/actions/workflows/ci.yml)
+[![Crates.io](https://img.shields.io/crates/v/path_jail.svg)](https://crates.io/crates/path_jail)
+[![Documentation](https://docs.rs/path_jail/badge.svg)](https://docs.rs/path_jail)
+[![License](https://img.shields.io/crates/l/path_jail.svg)](https://github.com/aimable100/path_jail#license)
 
 A zero-dependency filesystem sandbox for Rust. Restricts paths to a root directory, preventing traversal attacks while supporting files that don't exist yet.
 
@@ -100,6 +103,35 @@ let verified: PathBuf = jail.contains("/var/uploads/file.txt")?;
 let rel: PathBuf = jail.relative(&path)?;  // "subdir/file.txt"
 ```
 
+## Want Type-Safe Paths?
+
+If you want to enforce validated paths at compile time, use the newtype pattern:
+
+```rust
+use path_jail::{Jail, JailError};
+use std::path::{Path, PathBuf};
+
+/// A path verified to be inside a jail.
+pub struct JailedPath(PathBuf);
+
+impl JailedPath {
+    pub fn new(jail: &Jail, path: impl AsRef<Path>) -> Result<Self, JailError> {
+        jail.join(path).map(Self)
+    }
+
+    pub fn as_path(&self) -> &Path {
+        &self.0
+    }
+}
+
+// Now your functions can require JailedPath
+fn save_upload(path: JailedPath, data: &[u8]) -> std::io::Result<()> {
+    std::fs::write(path.as_path(), data)
+}
+```
+
+This makes "confused deputy" bugs a compile error: you cannot accidentally pass an unvalidated `PathBuf` where a `JailedPath` is expected.
+
 ## Alternatives
 
 | | path_jail | strict-path | cap-std |
@@ -112,14 +144,6 @@ let rel: PathBuf = jail.relative(&path)?;  // "subdir/file.txt"
 
 - [`strict-path`](https://crates.io/crates/strict-path) - More comprehensive, uses marker types for compile-time guarantees
 - [`cap-std`](https://docs.rs/cap-std) - Capability-based, TOCTOU-safe, but different API than `std::fs`
-
-## Roadmap
-
-- [x] Core path validation (`join`, `contains`, `relative`)
-- [x] Symlink resolution (including chains and broken symlinks)
-- [x] Error types with context
-- [x] Comprehensive security tests (22 tests)
-- [ ] I/O helpers (`read`, `write`, `create_dir_all`)
 
 ## License
 

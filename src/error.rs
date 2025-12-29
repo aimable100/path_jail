@@ -1,5 +1,5 @@
-use std::fmt;
 use std::error::Error;
+use std::fmt;
 use std::path::PathBuf;
 
 #[derive(Debug)]
@@ -18,11 +18,19 @@ impl fmt::Display for JailError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::EscapedRoot { attempted, root } => {
-                write!(f, "path '{}' escapes jail root '{}'", 
-                       attempted.display(), root.display())
+                write!(
+                    f,
+                    "path '{}' escapes jail root '{}'",
+                    attempted.display(),
+                    root.display()
+                )
             }
             Self::BrokenSymlink(path) => {
-                write!(f, "broken symlink at '{}' (cannot verify target)", path.display())
+                write!(
+                    f,
+                    "broken symlink at '{}' (cannot verify target)",
+                    path.display()
+                )
             }
             Self::InvalidPath(reason) => write!(f, "invalid path: {}", reason),
             Self::Io(err) => write!(f, "io error: {}", err),
