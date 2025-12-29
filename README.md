@@ -2,8 +2,8 @@
 
 [![CI](https://github.com/aimable100/path_jail/actions/workflows/ci.yml/badge.svg)](https://github.com/aimable100/path_jail/actions/workflows/ci.yml)
 [![Crates.io](https://img.shields.io/crates/v/path_jail.svg)](https://crates.io/crates/path_jail)
-[![Documentation](https://docs.rs/path_jail/badge.svg)](https://docs.rs/path_jail)
-[![License](https://img.shields.io/crates/l/path_jail.svg)](https://github.com/aimable100/path_jail#license)
+[![docs.rs](https://img.shields.io/docsrs/path_jail)](https://docs.rs/path_jail)
+[![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](https://github.com/aimable100/path_jail#license)
 
 A zero-dependency filesystem sandbox for Rust. Restricts paths to a root directory, preventing traversal attacks while supporting files that don't exist yet.
 
