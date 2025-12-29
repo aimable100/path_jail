@@ -2,6 +2,7 @@
 name = "path_jail"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.70"
 license = "MIT OR Apache-2.0"
 description = "A secure filesystem sandbox. Restricts paths to a root directory, preventing traversal attacks."
 repository = "https://github.com/aimable100/path_jail"
