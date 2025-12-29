@@ -4,7 +4,7 @@
 [![Crates.io](https://img.shields.io/crates/v/path_jail.svg)](https://crates.io/crates/path_jail)
 [![docs.rs](https://img.shields.io/docsrs/path_jail)](https://docs.rs/path_jail)
 [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](https://github.com/aimable100/path_jail#license)
-[![MSRV](https://img.shields.io/badge/MSRV-1.70-blue.svg)](https://github.com/aimable100/path_jail)
+[![MSRV](https://img.shields.io/badge/MSRV-1.80-blue.svg)](https://github.com/aimable100/path_jail)
 
 A zero-dependency filesystem sandbox for Rust. Restricts paths to a root directory, preventing traversal attacks while supporting files that don't exist yet.
 
@@ -337,6 +337,8 @@ fn save_upload(path: JailedPath, data: &[u8]) -> std::io::Result<()> {
 
 This makes "confused deputy" bugs a compile error: you cannot accidentally pass an unvalidated `PathBuf` where a `JailedPath` is expected.
 
+This pattern has **zero runtime cost** - it's a newtype wrapper that compiles away.
+
 ## Alternatives
 
 | | path_jail | strict-path | cap-std |
@@ -344,11 +346,13 @@ This makes "confused deputy" bugs a compile error: you cannot accidentally pass 
 | Approach | Path validation | Type-safe path system | File descriptors |
 | Returns | `std::path::PathBuf` | Custom `StrictPath<T>` | Custom `Dir`/`File` |
 | Dependencies | 0 | ~5 | ~10 |
-| TOCTOU-safe | No | No | Yes |
+| TOCTOU-safe | Path-only* | No | Yes |
 | Best for | Simple file sandboxing | Complex type-safe paths | Kernel-enforced security |
 
 - [`strict-path`](https://crates.io/crates/strict-path) - More comprehensive, uses marker types for compile-time guarantees
 - [`cap-std`](https://docs.rs/cap-std) - Capability-based, TOCTOU-safe, but different API than `std::fs`
+
+*Path-only: Safe against remote attackers (who can't race the filesystem). Not safe against local attackers with write access to the jail directory. See [TOCTOU Race Conditions](#toctou-race-conditions).
 
 ## Thread Safety
 
@@ -369,9 +373,9 @@ std::thread::spawn(move || {
 
 ## MSRV
 
-Minimum Supported Rust Version: **1.70**
+Minimum Supported Rust Version: **1.80**
 
-This crate will always support at least the last 6 months of Rust stable releases.
+This crate tracks recent stable Rust. We use `LazyLock` for ergonomic static initialization in examples.
 
 ## Development
 
