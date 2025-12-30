@@ -44,9 +44,9 @@ fn invalid_root_captures_path() {
 fn rejects_root_variations() {
     // Various ways to spell filesystem root should all be rejected
     assert!(Jail::new("/").is_err());
-    assert!(Jail::new("//").is_err());      // Canonicalizes to /
-    assert!(Jail::new("/.").is_err());      // Canonicalizes to /
-    assert!(Jail::new("/./").is_err());     // Canonicalizes to /
+    assert!(Jail::new("//").is_err()); // Canonicalizes to /
+    assert!(Jail::new("/.").is_err()); // Canonicalizes to /
+    assert!(Jail::new("/./").is_err()); // Canonicalizes to /
 }
 
 #[test]
@@ -428,8 +428,8 @@ fn handles_control_characters() {
     #[cfg(unix)]
     {
         // These should work (though they're ugly)
-        let _ = jail.join("file\n.txt");  // Newline
-        let _ = jail.join("file\t.txt");  // Tab
+        let _ = jail.join("file\n.txt"); // Newline
+        let _ = jail.join("file\t.txt"); // Tab
     }
 }
 
