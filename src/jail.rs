@@ -33,6 +33,8 @@ impl Jail {
     ///
     /// Resolves `..` components, follows symlinks, verifies containment.
     /// Works even if the final path does not exist.
+    ///
+    /// Rejects absolute paths, null bytes, and paths that would escape the jail.
     #[must_use = "use the returned path, not the original input"]
     pub fn join<P: AsRef<Path>>(&self, relative: P) -> Result<PathBuf, JailError> {
         let path = relative.as_ref();

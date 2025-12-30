@@ -3,6 +3,7 @@ use std::fmt;
 use std::path::PathBuf;
 
 #[derive(Debug)]
+#[non_exhaustive]
 pub enum JailError {
     /// Path would escape the jail root.
     EscapedRoot { attempted: PathBuf, root: PathBuf },

@@ -275,14 +275,14 @@ use path_jail::{Jail, JailError};
 match Jail::new("/var/uploads") {
     Ok(jail) => { /* use jail */ }
     Err(JailError::InvalidRoot(path)) => {
-        // Tried to use filesystem root (/, C:\) as jail
-        panic!("Config error: {} is filesystem root", path.display());
+        // Tried to use filesystem root (/, C:\) or non-directory
+        panic!("Config error: {}", path.display());
     }
     Err(JailError::Io(e)) => {
-        // Root doesn't exist or isn't a directory
+        // Root doesn't exist
         panic!("Config error: {}", e);
     }
-    Err(_) => unreachable!(),
+    Err(e) => panic!("Unexpected error: {}", e),  // Future-proof
 }
 ```
 
@@ -314,7 +314,7 @@ match jail.join(user_input) {
         // Filesystem error (e.g., permission denied)
         eprintln!("I/O error: {}", e);
     }
-    Err(JailError::InvalidRoot(_)) => unreachable!(), // Only from Jail::new
+    Err(e) => eprintln!("Error: {}", e),  // Future-proof (non_exhaustive)
 }
 ```
 

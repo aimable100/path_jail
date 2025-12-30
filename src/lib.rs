@@ -30,6 +30,8 @@
 //! - Path traversal (`../../etc/passwd`)
 //! - Symlink escapes (symlinks pointing outside the jail)
 //! - Absolute path injection (`/etc/passwd`)
+//! - Null byte injection (`file\x00.txt`)
+//! - Broken symlinks (cannot verify target)
 //!
 //! See [`Jail`] for details on the security model.
 
