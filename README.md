@@ -1,14 +1,14 @@
 # path_jail
 
-[![CI](https://github.com/aimable100/path_jail/actions/workflows/ci.yml/badge.svg)](https://github.com/aimable100/path_jail/actions/workflows/ci.yml)
+[![CI](https://github.com/tenuo-ai/path_jail/actions/workflows/ci.yml/badge.svg)](https://github.com/tenuo-ai/path_jail/actions/workflows/ci.yml)
 [![Crates.io](https://img.shields.io/crates/v/path_jail.svg)](https://crates.io/crates/path_jail)
 [![docs.rs](https://img.shields.io/docsrs/path_jail)](https://docs.rs/path_jail)
-[![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](https://github.com/aimable100/path_jail#license)
-[![MSRV](https://img.shields.io/badge/MSRV-1.80-blue.svg)](https://github.com/aimable100/path_jail)
+[![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](https://github.com/tenuo-ai/path_jail#license)
+[![MSRV](https://img.shields.io/badge/MSRV-1.80-blue.svg)](https://github.com/tenuo-ai/path_jail)
 
 A zero-dependency filesystem sandbox for Rust. Restricts paths to a root directory, preventing traversal attacks while supporting files that don't exist yet.
 
-**Python bindings:** [`path-jail`](https://github.com/aimable100/path-jail-python) on PyPI
+**Python bindings:** [`path-jail`](https://github.com/tenuo-ai/path-jail-python) on PyPI
 
 ## Installation
 
@@ -470,7 +470,7 @@ This crate tracks recent stable Rust. We use `LazyLock` for ergonomic static ini
 ## Development
 
 ```bash
-git clone https://github.com/aimable100/path_jail.git
+git clone https://github.com/tenuo-ai/path_jail.git
 cd path_jail
 cargo test
 cargo clippy
