@@ -232,16 +232,12 @@ impl Jail {
 
             // Reject parent traversal
             if seg == ".." {
-                return Err(JailError::InvalidPath(
-                    "segment '..' not allowed".into(),
-                ));
+                return Err(JailError::InvalidPath("segment '..' not allowed".into()));
             }
 
             // Reject null bytes
             if seg.contains('\0') {
-                return Err(JailError::InvalidPath(
-                    "segment contains null byte".into(),
-                ));
+                return Err(JailError::InvalidPath("segment contains null byte".into()));
             }
 
             path.push(seg);

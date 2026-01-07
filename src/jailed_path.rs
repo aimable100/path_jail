@@ -92,4 +92,3 @@ impl From<JailedPath> for PathBuf {
         path.inner
     }
 }
-

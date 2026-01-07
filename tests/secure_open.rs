@@ -256,4 +256,3 @@ fn open_blocks_symlink_swap_attack() {
     // So the open fails with "file not found"
     assert!(result.is_err());
 }
-

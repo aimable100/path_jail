@@ -244,4 +244,3 @@ impl JailedPath {
         Ok(JailedFile { inner: file })
     }
 }
-
